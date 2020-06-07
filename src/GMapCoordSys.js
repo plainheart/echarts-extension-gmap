@@ -4,7 +4,7 @@ import { util as zrUtil, graphic, matrix } from "echarts";
 
 function GMapCoordSys(gmap, api) {
   this._gmap = gmap;
-  this.dimensions = ["lat", "lng"];
+  this.dimensions = ["lng", "lat"];
   this._mapOffset = [0, 0];
   this._api = api;
 }
@@ -17,14 +17,14 @@ var excludedOptions = [
   "renderOnMoving"
 ];
 
-GMapCoordSysProto.dimensions = ["lat", "lng"];
+GMapCoordSysProto.dimensions = ["lng", "lat"];
 
 GMapCoordSysProto.setZoom = function(zoom) {
   this._zoom = zoom;
 };
 
 GMapCoordSysProto.setCenter = function(center) {
-  var latlng = new google.maps.LatLng(center[0], center[1]);
+  var latlng = new google.maps.LatLng(center[1], center[0]);
   this._center = latLngToPixel(latlng, this._gmap);
 };
 
@@ -41,7 +41,7 @@ GMapCoordSysProto.getGoogleMap = function() {
 };
 
 GMapCoordSysProto.dataToPoint = function(data) {
-  var latlng = new google.maps.LatLng(data[0], data[1]);
+  var latlng = new google.maps.LatLng(data[1], data[0]);
   var px = latLngToPixel(latlng, this._gmap);
   if (px) {
     var mapOffset = this._mapOffset;
@@ -55,7 +55,7 @@ GMapCoordSysProto.pointToData = function(pt) {
     new google.maps.Point(pt[0] + mapOffset[0], pt[1] + mapOffset[1]),
     this._gmap
   );
-  return [lnglat.lat(), lnglat.lng()];
+  return [latlng.lng(), latlng.lat()];
 };
 
 GMapCoordSysProto.getViewRect = function() {
@@ -224,6 +224,7 @@ function createOverlayCtor() {
     Overlay.prototype = new google.maps.OverlayView();
 
     Overlay.prototype.onAdd = function() {
+      this.getMap().__overlayProjection = this.getProjection();
       gmap.getDiv().querySelector('.gm-style > div').appendChild(this._root);
     };
 
@@ -251,32 +252,21 @@ function createOverlayCtor() {
 }
 
 function latLngToPixel(latLng, map) {
-  var projection = map.getProjection();
+  var projection = map.__overlayProjection;
   if (!projection) {
     return;
   }
 
-  var bounds = map.getBounds();
-  var topRight = projection.fromLatLngToPoint(bounds.getNorthEast());
-  var bottomLeft = projection.fromLatLngToPoint(bounds.getSouthWest());
-  var scale = Math.pow(2, map.getZoom());
-  var worldPoint = projection.fromLatLngToPoint(latLng);
-  return new google.maps.Point((worldPoint.x - bottomLeft.x) * scale, (worldPoint.y - topRight.y) * scale);
+  return projection.fromLatLngToContainerPixel(latLng);
 }
 
 function pixelToLatLng(pixel, map) {
-  var projection = map.getProjection();
+  var projection = map.__overlayProjection;
   if (!projection) {
     return;
   }
 
-  var scale = Math.pow(2, map.getZoom());
-  var bounds = map.getBounds();
-  var nw = projection.fromLatLngToPoint(new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getSouthWest().lng()));
-  var point = new google.maps.Point();
-  point.x = pixel.x / scale + nw.x;
-  point.y = pixel.y / scale + nw.y;
-  return projection.fromPointToLatLng(point);
+  return projection.fromContainerPixelToLatLng(pixel);
 }
 
 export default GMapCoordSys;
