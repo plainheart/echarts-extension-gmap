@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/plainheart/echarts-extension-google-map.git"
+    "url": "git+https://github.com/plainheart/echarts-extension-gmap.git"
   },
   "keywords": [
     "echarts",
@@ -27,9 +27,9 @@
   "author": "plainheart",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/plainheart/echarts-extension-google-map/issues"
+    "url": "https://github.com/plainheart/echarts-extension-gmap/issues"
   },
-  "homepage": "https://github.com/plainheart/echarts-extension-google-map#readme",
+  "homepage": "https://github.com/plainheart/echarts-extension-gmap#readme",
   "devDependencies": {
     "webpack": "^4.29.5",
     "webpack-cli": "^3.2.3"
