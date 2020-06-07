@@ -7,7 +7,7 @@
 
 [README_EN](https://github.com/plainheart/echarts-extension-gmap/blob/master/README.md)
 
-[在线示例](https://codepen.io/plainheart/pen/qBbdNYx)
+[在线示例](https://codepen.io/plainheart/pen/VweLGbR) (示例中使用了谷歌地图API，国内访问需要代理)
 
 [ECharts](https://echarts.apache.org/zh/index.html) 谷歌地图扩展，可以在高德地图上展现 [点图](https://echarts.apache.org/zh/option.html#series-scatter)，[线图](https://echarts.apache.org/zh/option.html#series-line)，[热力图](https://echarts.apache.org/zh/option.html#series-heatmap) 等可视化。
 
