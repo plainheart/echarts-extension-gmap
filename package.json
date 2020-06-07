@@ -1,0 +1,41 @@
+{
+  "name": "echarts-extension-gmap",
+  "version": "1.0.0",
+  "description": "An Google Map(https://www.google.com/maps) extension for ECharts(https://github.com/apache/incubator-echarts)",
+  "main": "dist/echarts-extension-gmap.min.js",
+  "scripts": {
+    "build": "webpack -p",
+    "dev": "webpack -d",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plainheart/echarts-extension-google-map.git"
+  },
+  "keywords": [
+    "echarts",
+    "google-maps",
+    "google",
+    "echarts-extention",
+    "data-visualization",
+    "map",
+    "echarts-gmap",
+    "echarts-google-map",
+    "echarts4",
+    "gmap"
+  ],
+  "author": "plainheart",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/plainheart/echarts-extension-google-map/issues"
+  },
+  "homepage": "https://github.com/plainheart/echarts-extension-google-map#readme",
+  "devDependencies": {
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.2.3"
+  },
+  "dependencies": {
+    "echarts": "^4.7.0",
+    "lodash.debounce": "^4.0.8"
+  }
+}
