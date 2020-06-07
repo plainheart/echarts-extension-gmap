@@ -149,8 +149,6 @@ GMapCoordSys.create = function(ecModel, api) {
       zrUtil.each(excludedOptions, function(key) {
         delete options[key];
       });
-      // Currently, minZoom can not be less than 2
-      options.minZoom = Math.max(options.minZoom || 2, 2);
       var center = options.center;
       // normalize center
       if (zrUtil.isArray(center)) {
