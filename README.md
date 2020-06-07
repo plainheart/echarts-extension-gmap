@@ -1,50 +1,50 @@
-[![NPM version](https://img.shields.io/npm/v/echarts-extension-amap.svg?style=flat)](https://www.npmjs.org/package/echarts-extension-amap)
-[![Build Status](https://travis-ci.org/plainheart/echarts-extension-amap.svg?branch=master)](https://travis-ci.org/plainheart/echarts-extension-amap)
-[![Downloads](https://img.shields.io/npm/dm/echarts-extension-amap.svg)](https://npmcharts.com/compare/echarts-extension-amap?minimal=true)
-[![License](https://img.shields.io/npm/l/echarts-extension-amap.svg)](https://www.npmjs.com/package/echarts-extension-amap)
+[![NPM version](https://img.shields.io/npm/v/echarts-extension-gmap.svg?style=flat)](https://www.npmjs.org/package/echarts-extension-gmap)
+[![Build Status](https://travis-ci.org/plainheart/echarts-extension-gmap.svg?branch=master)](https://travis-ci.org/plainheart/echarts-extension-gmap)
+[![Downloads](https://img.shields.io/npm/dm/echarts-extension-gmap.svg)](https://npmcharts.com/compare/echarts-extension-gmap?minimal=true)
+[![License](https://img.shields.io/npm/l/echarts-extension-gmap.svg)](https://www.npmjs.com/package/echarts-extension-gmap)
 
-## AMap extension for ECharts
+## Google Map extension for ECharts
 
-[中文说明](https://github.com/plainheart/echarts-extension-amap/blob/master/README.zh-CN.md)
+[中文说明](https://github.com/plainheart/echarts-extension-gmap/blob/master/README.zh-CN.md)
 
 This is an AMap extension for [ECharts](https://echarts.apache.org/en/index.html) which is used to display visualizations such as [Scatter](https://echarts.apache.org/en/option.html#series-scatter), [Line](https://echarts.apache.org/en/option.html#series-line), [Heatmap](https://echarts.apache.org/en/option.html#series-heatmap).
 
 ### Examples
 
-Refer to [examples/index.html](https://github.com/plainheart/echarts-extension-amap/blob/master/examples/index.html)
+Refer to [examples/index.html](https://github.com/plainheart/echarts-extension-gmap/blob/master/examples/index.html)
 
 ![Preview](https://user-images.githubusercontent.com/26999792/53300484-e2979680-3882-11e9-8fb4-143c4ca4c416.png)
 
 ### Installation
 
 ```js
-npm install echarts-extension-amap --save
+npm install echarts-extension-gmap --save
 ```
 
 ### Import
 
-Import packaged distribution file `echarts-extension-amap.min.js` and add AMap API script and echarts script.
+Import packaged distribution file `echarts-extension-gmap.min.js` and add Google Map API script and echarts script.
 
 ```html
-<!-- import JavaScript API of AMap, please replace the ak with your own key and specify the version and plugins you need -->
-<script src="https://webapi.amap.com/maps?v=2.0&key=ak&plugin=AMap.Scale,AMap.ToolBar"></script>
+<!-- import JavaScript API of Google Map, please replace the key with your own key -->
+<script src="https://maps.googleapis.com/maps/api/js?key={key}"></script>
 <!-- import echarts -->
 <script src="/path/to/echarts.min.js"></script>
-<!-- import echarts-extension-amap -->
-<script src="dist/echarts-extension-amap.min.js"></script>
+<!-- import echarts-extension-gmap -->
+<script src="dist/echarts-extension-gmap.min.js"></script>
 ```
 
 You can also import this extension by `require` if you are using `webpack`.
 
 ```js
 require("echarts");
-require("echarts-extension-amap");
+require("echarts-extension-gmap");
 ```
 
 Or use a CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/echarts-extension-amap@latest/dist/echarts-extension-amap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts-extension-gmap@latest/dist/echarts-extension-gmap.min.js"></script>
 ```
 
 This extension will register itself as a component of `echarts` after it is imported.
@@ -55,35 +55,28 @@ This extension can be configured simply like [geo](https://echarts.apache.org/en
 
 ```js
 option = {
-  // load amap component
-  amap: {
-    // initial options of AMap
-    // See https://lbs.amap.com/api/javascript-api/reference/map#MapOption for details
-    // initial map center [lng, lat]
+  // load gmap component
+  gmap: {
+    // initial options of Google Map
+    // See https://developers.google.com/maps/documentation/javascript/reference/map#MapOptions for details
+    // initial map center, accepts an array like [lng, lat] or an object like { lng, lat }
     center: [108.39, 39.9],
     // initial map zoom
     zoom: 4,
-    // whether the map and echarts automatically handles browser window resize to update itself.
-    resizeEnable: true,
-    // customized map style, see https://lbs.amap.com/dev/mapstyle/index for details
-    mapStyle: "amap://styles/dark",
     // whether echarts layer should be rendered when the map is moving. Default is true.
     // if false, it will only be re-rendered after the map `moveend`.
     // It's better to set this option to false if data is large.
     renderOnMoving: true,
-    // the zIndex of echarts layer for AMap, default value is 2000.
+    // the zIndex of echarts layer for Google Map, default value is 2000.
     echartsLayerZIndex: 2019
-    // Note: Please DO NOT use the initial option `layers` to add Satellite/RoadNet/Other layers now.
-    // There is some bugs about it, we can use `amap.add` instead.
-    // Refer to the codes at the bottom.
 
     // More initial options...
   },
   series: [
     {
       type: "scatter",
-      // use `amap` as the coordinate system
-      coordinateSystem: "amap",
+      // use `gmap` as the coordinate system
+      coordinateSystem: "gmap",
       // data items [[lng, lat, value], [lng, lat, value], ...]
       data: [[120, 30, 8], [120.1, 30.2, 20]],
       encode: {
@@ -94,16 +87,15 @@ option = {
   ]
 };
 
-// Get the instance of AMap
-var amap = chart
+// Get the instance of Google Map
+var gmap = chart
   .getModel()
-  .getComponent("amap")
+  .getComponent("gmap")
   .getAMap();
-// Add some controls provided by AMap.
-amap.addControl(new AMap.Scale());
-amap.addControl(new AMap.ToolBar());
-// Add SatelliteLayer and RoadNetLayer to map
-var satelliteLayer = new AMap.TileLayer.Satellite();
-var roadNetLayer = new AMap.TileLayer.RoadNet();
-amap.add([satelliteLayer, roadNetLayer]);
+// Add some markers to map
+var marker = new google.maps.Marker({ position: gmap.getCenter() });
+marker.setMap(gmap);
+// Add TrafficLayer to map
+var trafficLayer = new google.maps.TrafficLayer();
+trafficLayer.setMap(gmap);
 ```
