@@ -7,13 +7,15 @@
 
 [中文说明](https://github.com/plainheart/echarts-extension-gmap/blob/master/README.zh-CN.md)
 
-This is an AMap extension for [ECharts](https://echarts.apache.org/en/index.html) which is used to display visualizations such as [Scatter](https://echarts.apache.org/en/option.html#series-scatter), [Line](https://echarts.apache.org/en/option.html#series-line), [Heatmap](https://echarts.apache.org/en/option.html#series-heatmap).
+[Online example on CodePen](https://codepen.io/plainheart/pen/qBbdNYx)
+
+This is a Google Map extension for [ECharts](https://echarts.apache.org/en/index.html) which is used to display visualizations such as [Scatter](https://echarts.apache.org/en/option.html#series-scatter), [Line](https://echarts.apache.org/en/option.html#series-line), [Heatmap](https://echarts.apache.org/en/option.html#series-heatmap).
 
 ### Examples
 
 Refer to [examples/index.html](https://github.com/plainheart/echarts-extension-gmap/blob/master/examples/index.html)
 
-![Preview](https://user-images.githubusercontent.com/26999792/53300484-e2979680-3882-11e9-8fb4-143c4ca4c416.png)
+![Preview](https://user-images.githubusercontent.com/26999792/83968392-86cc1200-a8fb-11ea-8326-47d62627dfc9.png)
 
 ### Installation
 
@@ -91,7 +93,7 @@ option = {
 var gmap = chart
   .getModel()
   .getComponent("gmap")
-  .getAMap();
+  .getGoogleMap();
 // Add some markers to map
 var marker = new google.maps.Marker({ position: gmap.getCenter() });
 marker.setMap(gmap);
