@@ -83,7 +83,9 @@ option = {
       data: [[120, 30, 8], [120.1, 30.2, 20]],
       encode: {
         // encode the third element of data item as the `value` dimension
-        value: 2
+        value: 2,
+        lng: 0,
+        lat: 1
       }
     }
   ]
