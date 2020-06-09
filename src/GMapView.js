@@ -11,7 +11,7 @@ export default echarts.extendComponentView({
     var viewportRoot = api.getZr().painter.getViewportRoot();
     var coordSys = gmapModel.coordinateSystem;
     var offsetEl = gmap.getDiv();
-    var renderOnMoving = gmapModel.get('renderOnMoving');
+    var renderOnMoving = gmapModel.get("renderOnMoving");
     var oldWidth = offsetEl.clientWidth;
     var oldHeight = offsetEl.clientHeight;
 
