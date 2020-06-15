@@ -133,8 +133,8 @@ GMapCoordSys.create = function(ecModel, api) {
         // in moving handler in AMapView
         viewportRoot.style.left = "0px";
         viewportRoot.style.top = "0px";
-        viewportRoot.style.width = '100%'
-        viewportRoot.style.height = '100%'
+        viewportRoot.style.width = "100%";
+        viewportRoot.style.height = "100%";
         root.removeChild(gmapRoot);
       }
       gmapRoot = document.createElement("div");
@@ -223,14 +223,14 @@ function createOverlayCtor() {
 
     Overlay.prototype.onAdd = function() {
       this.getMap().__overlayProjection = this.getProjection();
-      gmap.getDiv().querySelector('.gm-style > div').appendChild(this._root);
+      gmap.getDiv().querySelector(".gm-style > div").appendChild(this._root);
     };
 
     /**
      * @override
      */
     Overlay.prototype.draw = function() {
-      google.maps.event.trigger(this.getMap(), 'gmaprender');
+      google.maps.event.trigger(this.getMap(), "gmaprender");
     };
 
     Overlay.prototype.onRemove = function() {
