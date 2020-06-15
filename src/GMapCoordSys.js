@@ -222,7 +222,8 @@ function createOverlayCtor() {
     Overlay.prototype = new google.maps.OverlayView();
 
     Overlay.prototype.onAdd = function() {
-      this.getMap().__overlayProjection = this.getProjection();
+      var gmap = this.getMap();
+      gmap.__overlayProjection = this.getProjection();
       gmap.getDiv().querySelector(".gm-style > div").appendChild(this._root);
     };
 

@@ -59,13 +59,24 @@ export default echarts.extendComponentView({
   },
 
   dispose: function(ecModel, api) {
+    this._oldRenderHandler && this._oldRenderHandler.remove();
+    this._oldRenderHandler = null;
+
     var component = ecModel.getComponent("gmap");
     var gmapInstance = component.getGoogleMap();
+
+    // remove injected projection
+    delete gmapInstance.__overlayProjection;
+
+    // clear all listeners of map instance
     google.maps.event.clearInstanceListeners(gmapInstance);
+
     var mapDiv = gmapInstance.getDiv();
-    mapDiv.parentNode.remove(mapDiv);
+    mapDiv.parentNode.removeChild(mapDiv);
+
     component.setGoogleMap(null);
     component.setEChartsLayer(null);
     component.coordinateSystem.setGoogleMap(null);
+    component.coordinateSystem = null;
   }
 });
