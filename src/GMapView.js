@@ -1,5 +1,7 @@
+/* global google */
+
 import * as echarts from "echarts";
-import debounce from 'lodash.debounce';
+import debounce from "lodash.debounce";
 
 export default echarts.extendComponentView({
   type: "gmap",
@@ -71,6 +73,7 @@ export default echarts.extendComponentView({
     // clear all listeners of map instance
     google.maps.event.clearInstanceListeners(gmapInstance);
 
+    // remove DOM of map instance
     var mapDiv = gmapInstance.getDiv();
     mapDiv.parentNode.removeChild(mapDiv);
 

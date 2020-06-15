@@ -1,4 +1,4 @@
-/* global AMap */
+/* global google */
 
 import { util as zrUtil, graphic, matrix } from "echarts";
 
