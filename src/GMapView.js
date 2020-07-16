@@ -52,7 +52,7 @@ export default echarts.extendComponentView({
 
     if (!renderOnMoving) {
       renderHandler = debounce(renderHandler, 100);
-      resizeChart = debounce(resizeChart, 100);
+      resizeHandler = debounce(resizeHandler, 100);
     }
 
     this._oldRenderHandler = google.maps.event.addListener(gmap, "gmaprender", renderHandler);
