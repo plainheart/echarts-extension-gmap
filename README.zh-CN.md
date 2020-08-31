@@ -3,7 +3,7 @@
 [![Downloads](https://img.shields.io/npm/dm/echarts-extension-gmap.svg)](https://npmcharts.com/compare/echarts-extension-gmap?minimal=true)
 [![License](https://img.shields.io/npm/l/echarts-extension-gmap.svg)](https://www.npmjs.com/package/echarts-extension-gmap)
 
-## ECharts 谷歌地图扩展
+## Apache ECharts (incubating) 谷歌地图扩展
 
 [README_EN](https://github.com/plainheart/echarts-extension-gmap/blob/master/README.md)
 
