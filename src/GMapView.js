@@ -40,7 +40,13 @@ export default echarts.extendComponentView({
       gmapModel.__mapOffset = mapOffset;
 
       api.dispatchAction({
-        type: "gmapRoam"
+        type: "gmapRoam",
+        animation: {
+          // in ECharts 5.x,
+          // we can set animation duration as 0
+          // to ensure no delay when moving or zooming
+          duration: 0
+        }
       });
     };
 
