@@ -1,6 +1,6 @@
 {
   "name": "echarts-extension-gmap",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "An Google Map(https://www.google.com/maps) extension for Apache ECharts (incubating) (https://github.com/apache/incubator-echarts)",
   "main": "dist/echarts-extension-gmap.min.js",
   "scripts": {
@@ -23,6 +23,7 @@
     "echarts-gmap",
     "echarts-google-map",
     "echarts4",
+    "echarts5",
     "gmap"
   ],
   "author": "plainheart",
