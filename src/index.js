@@ -10,7 +10,7 @@ import GMapCoordSys from "./GMapCoordSys";
 import "./GMapModel";
 import "./GMapView";
 
-echarts.registerCoordinateSystem("gmap", AMapCoordSys);
+echarts.registerCoordinateSystem("gmap", GMapCoordSys);
 
 // Action
 echarts.registerAction(
