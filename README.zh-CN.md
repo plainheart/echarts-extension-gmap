@@ -47,7 +47,7 @@ require("echarts-extension-gmap");
 使用 CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/echarts-extension-gmap@latest/dist/echarts-extension-gmap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts-extension-gmap/dist/echarts-extension-gmap.min.js"></script>
 ```
 
 插件会自动注册相应的组件。

@@ -47,7 +47,7 @@ require("echarts-extension-gmap");
 Or use a CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/echarts-extension-gmap@latest/dist/echarts-extension-gmap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts-extension-gmap/dist/echarts-extension-gmap.min.js"></script>
 ```
 
 This extension will register itself as a component of `echarts` after it is imported.
