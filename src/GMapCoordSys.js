@@ -130,7 +130,7 @@ GMapCoordSys.create = function(ecModel, api) {
       var gmapRoot = root.querySelector(".ec-extension-google-map");
       if (gmapRoot) {
         // Reset viewport left and top, which will be changed
-        // in moving handler in AMapView
+        // in moving handler in GMapView
         viewportRoot.style.left = "0px";
         viewportRoot.style.top = "0px";
         viewportRoot.style.width = "100%";
