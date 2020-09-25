@@ -1,9 +1,10 @@
+const fs = require('fs');
 const path = require('path');
 const fsExtra = require('fs-extra');
 const commander = require('commander');
 const rollup = require('rollup');
 const config = require('./config');
-const { name } = require('../package.json');
+const { name, version } = require('../package.json');
 
 function run() {
   const descIndent = '                                   ';
@@ -62,6 +63,7 @@ function run() {
     });
 
     build(configs).then(function () {
+      generateExamples();
       console.log(
         color('fgGreen', 'dim')('\nBuild completely')
       );
@@ -79,6 +81,35 @@ function run() {
       console.error(err);
     });
   }
+}
+
+function generateExamples() {
+  [['en', ''], ['zh_CN']].forEach(function (lang) {
+    const fileName = `index${lang[1] != null ? '' : '_' + lang[0]}.html`;
+    const dest = path.resolve(__dirname, '../examples/' + fileName);
+    console.log(
+      color('fgCyan', 'dim')('\nGenerating example'),
+      color('fgCyan')(fileName),
+      color('fgCyan', 'dim')('=>'),
+      color('fgCyan')(dest),
+      color('fgCyan', 'dim')(' ...')
+    );
+    const tpl = fs.readFileSync(
+      dest + '.tpl',
+      { encoding: 'utf-8' }
+    );
+    const example = tpl.replace(/{VERSION}/g, version);
+    fs.writeFileSync(
+      dest,
+      example,
+      { encoding: 'utf-8' }
+    );
+    console.log(
+      color('fgGreen', 'dim')('\nGenerated '),
+      color('fgGreen')(dest),
+      color('fgGreen', 'dim')(' successfully.')
+    );
+  });
 }
 
 function build(configs) {
