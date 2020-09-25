@@ -1,5 +1,5 @@
 /**
- * AMap component extension
+ * Google Map component extension
  */
 
 import { version, name } from "../package.json";
