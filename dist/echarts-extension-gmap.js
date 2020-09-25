@@ -1,6 +1,6 @@
 /*!
  * echarts-extension-gmap 
- * @version 1.2.0
+ * @version 1.2.1
  * @author plainheart
  * 
  * MIT License
@@ -33,7 +33,7 @@
 }(this, (function (exports, echarts) { 'use strict';
 
   var name = "echarts-extension-gmap";
-  var version = "1.2.0";
+  var version = "1.2.1";
 
   /* global google */
 
