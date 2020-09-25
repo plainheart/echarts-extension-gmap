@@ -1,10 +1,10 @@
 /* global google */
 
-import * as echarts from "echarts";
-import debounce from "lodash.debounce";
+import * as echarts from 'echarts';
+import debounce from 'lodash.debounce';
 
 export default echarts.extendComponentView({
-  type: "gmap",
+  type: 'gmap',
 
   render: function(gmapModel, ecModel, api) {
     var rendering = true;
@@ -13,7 +13,7 @@ export default echarts.extendComponentView({
     var viewportRoot = api.getZr().painter.getViewportRoot();
     var coordSys = gmapModel.coordinateSystem;
     var offsetEl = gmap.getDiv();
-    var renderOnMoving = gmapModel.get("renderOnMoving");
+    var renderOnMoving = gmapModel.get('renderOnMoving');
     var oldWidth = offsetEl.clientWidth;
     var oldHeight = offsetEl.clientHeight;
 
@@ -33,14 +33,14 @@ export default echarts.extendComponentView({
         -parseInt(offsetEl.style.left, 10) || 0,
         -parseInt(offsetEl.style.top, 10) || 0
       ];
-      viewportRoot.style.left = mapOffset[0] + "px";
-      viewportRoot.style.top = mapOffset[1] + "px";
+      viewportRoot.style.left = mapOffset[0] + 'px';
+      viewportRoot.style.top = mapOffset[1] + 'px';
 
       coordSys.setMapOffset(mapOffset);
       gmapModel.__mapOffset = mapOffset;
 
       api.dispatchAction({
-        type: "gmapRoam",
+        type: 'gmapRoam',
         animation: {
           // in ECharts 5.x,
           // we can set animation duration as 0
@@ -61,7 +61,7 @@ export default echarts.extendComponentView({
       resizeHandler = debounce(resizeHandler, 100);
     }
 
-    this._oldRenderHandler = google.maps.event.addListener(gmap, "gmaprender", renderHandler);
+    this._oldRenderHandler = google.maps.event.addListener(gmap, 'gmaprender', renderHandler);
 
     rendering = false;
   },
@@ -70,7 +70,7 @@ export default echarts.extendComponentView({
     this._oldRenderHandler && this._oldRenderHandler.remove();
     this._oldRenderHandler = null;
 
-    var component = ecModel.getComponent("gmap");
+    var component = ecModel.getComponent('gmap');
     var gmapInstance = component.getGoogleMap();
 
     // remove injected projection

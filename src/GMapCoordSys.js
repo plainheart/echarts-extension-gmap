@@ -1,10 +1,10 @@
 /* global google */
 
-import { util as zrUtil, graphic, matrix } from "echarts";
+import { util as zrUtil, graphic, matrix } from 'echarts';
 
 function GMapCoordSys(gmap, api) {
   this._gmap = gmap;
-  this.dimensions = ["lng", "lat"];
+  this.dimensions = ['lng', 'lat'];
   this._mapOffset = [0, 0];
   this._api = api;
 }
@@ -13,11 +13,11 @@ var GMapCoordSysProto = GMapCoordSys.prototype;
 
 // exclude private and unsupported options
 var excludedOptions = [
-  "echartsLayerZIndex",
-  "renderOnMoving"
+  'echartsLayerZIndex',
+  'renderOnMoving'
 ];
 
-GMapCoordSysProto.dimensions = ["lng", "lat"];
+GMapCoordSysProto.dimensions = ['lng', 'lat'];
 
 GMapCoordSysProto.setZoom = function(zoom) {
   this._zoom = zoom;
@@ -72,7 +72,7 @@ GMapCoordSysProto.prepareCustoms = function(data) {
   return {
     coordSys: {
       // The name exposed to user is always 'cartesian2d' but not 'grid'.
-      type: "gmap",
+      type: 'gmap',
       x: rect.x,
       y: rect.y,
       width: rect.width,
@@ -112,35 +112,35 @@ GMapCoordSys.create = function(ecModel, api) {
   var gmapCoordSys;
   var root = api.getDom();
 
-  ecModel.eachComponent("gmap", function(gmapModel) {
+  ecModel.eachComponent('gmap', function(gmapModel) {
     var painter = api.getZr().painter;
     var viewportRoot = painter.getViewportRoot();
-    if (typeof google === "undefined"
-      || typeof google.maps === "undefined"
-      || typeof google.maps.Map === "undefined") {
-      throw new Error("It seems that Google Map API has not been loaded completely yet.");
+    if (typeof google === 'undefined'
+      || typeof google.maps === 'undefined'
+      || typeof google.maps.Map === 'undefined') {
+      throw new Error('It seems that Google Map API has not been loaded completely yet.');
     }
     Overlay = Overlay || createOverlayCtor();
     if (gmapCoordSys) {
-      throw new Error("Only one google map component can exist");
+      throw new Error('Only one google map component can exist');
     }
     var gmap = gmapModel.getGoogleMap();
     if (!gmap) {
       // Not support IE8
-      var gmapRoot = root.querySelector(".ec-extension-google-map");
+      var gmapRoot = root.querySelector('.ec-extension-google-map');
       if (gmapRoot) {
         // Reset viewport left and top, which will be changed
         // in moving handler in GMapView
-        viewportRoot.style.left = "0px";
-        viewportRoot.style.top = "0px";
-        viewportRoot.style.width = "100%";
-        viewportRoot.style.height = "100%";
+        viewportRoot.style.left = '0px';
+        viewportRoot.style.top = '0px';
+        viewportRoot.style.width = '100%';
+        viewportRoot.style.height = '100%';
         root.removeChild(gmapRoot);
       }
-      gmapRoot = document.createElement("div");
-      gmapRoot.style.cssText = "width:100%;height:100%";
+      gmapRoot = document.createElement('div');
+      gmapRoot.style.cssText = 'width:100%;height:100%';
       // Not support IE8
-      gmapRoot.classList.add("ec-extension-google-map");
+      gmapRoot.classList.add('ec-extension-google-map');
       root.appendChild(gmapRoot);
 
       var options = zrUtil.clone(gmapModel.get());
@@ -162,14 +162,16 @@ GMapCoordSys.create = function(ecModel, api) {
       gmapModel.setGoogleMap(gmap);
 
       gmapModel.__projectionChangeListener && gmapModel.__projectionChangeListener.remove();
-      gmapModel.__projectionChangeListener = google.maps.event.addListener(gmap, "projection_changed", function() {
-        var layer = gmapModel.getEChartsLayer();
-        layer && layer.setMap(null);
+      gmapModel.__projectionChangeListener = google.maps.event.addListener(gmap, 'projection_changed',
+        function() {
+          var layer = gmapModel.getEChartsLayer();
+          layer && layer.setMap(null);
 
-        var overlay = new Overlay(viewportRoot, gmap);
-        overlay.setZIndex(echartsLayerZIndex);
-        gmapModel.setEChartsLayer(overlay);
-      });
+          var overlay = new Overlay(viewportRoot, gmap);
+          overlay.setZIndex(echartsLayerZIndex);
+          gmapModel.setEChartsLayer(overlay);
+        }
+      );
 
       // Override
       painter.getViewportRootOffset = function() {
@@ -177,12 +179,12 @@ GMapCoordSys.create = function(ecModel, api) {
       };
     }
 
-    var center = gmapModel.get("center");
+    var center = gmapModel.get('center');
     var normalizedCenter = [
       center.lng != null ? center.lng : center[0],
       center.lat != null ? center.lat : center[1]
     ];
-    var zoom = gmapModel.get("zoom");
+    var zoom = gmapModel.get('zoom');
     if (center && zoom) {
       var gmapCenter = gmap.getCenter();
       var gmapZoom = gmap.getZoom();
@@ -205,7 +207,7 @@ GMapCoordSys.create = function(ecModel, api) {
   });
 
   ecModel.eachSeries(function(seriesModel) {
-    if (seriesModel.get("coordinateSystem") === "gmap") {
+    if (seriesModel.get('coordinateSystem') === 'gmap') {
       seriesModel.coordinateSystem = gmapCoordSys;
     }
   });
@@ -224,14 +226,14 @@ function createOverlayCtor() {
     Overlay.prototype.onAdd = function() {
       var gmap = this.getMap();
       gmap.__overlayProjection = this.getProjection();
-      gmap.getDiv().querySelector(".gm-style > div").appendChild(this._root);
+      gmap.getDiv().querySelector('.gm-style > div').appendChild(this._root);
     };
 
     /**
      * @override
      */
     Overlay.prototype.draw = function() {
-      google.maps.event.trigger(this.getMap(), "gmaprender");
+      google.maps.event.trigger(this.getMap(), 'gmaprender');
     };
 
     Overlay.prototype.onRemove = function() {
