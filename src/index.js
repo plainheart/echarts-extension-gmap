@@ -5,12 +5,12 @@
 import { version, name } from "../package.json";
 
 import * as echarts from "echarts";
-import AMapCoordSys from "./GMapCoordSys";
+import GMapCoordSys from "./GMapCoordSys";
 
 import "./GMapModel";
 import "./GMapView";
 
-echarts.registerCoordinateSystem("amap", AMapCoordSys);
+echarts.registerCoordinateSystem("gmap", AMapCoordSys);
 
 // Action
 echarts.registerAction(
