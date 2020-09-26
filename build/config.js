@@ -4,6 +4,7 @@ const commonjs = require('@rollup/plugin-commonjs');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const { terser } = require('rollup-plugin-terser');
 const { getLicense } = require('./header');
+const { name } = require('../package.json');
 
 function getPlugins({ min, addBundleVersion }) {
   const plugins = [
@@ -26,7 +27,7 @@ function getPlugins({ min, addBundleVersion }) {
 }
 
 module.exports = function (opt/*{ min, addBundleVersion }*/) {
-  const outputFileName = 'echarts-extension-gmap' + (opt.min ? '.min.js' : '.js');
+  const outputFileName = name + (opt.min ? '.min.js' : '.js');
   return {
     plugins: getPlugins(opt),
     input: path.resolve(__dirname, '../src/index.js'),
