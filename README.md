@@ -1,7 +1,7 @@
 [![NPM version](https://img.shields.io/npm/v/echarts-extension-gmap.svg?style=flat)](https://www.npmjs.org/package/echarts-extension-gmap)
 [![Build Status](https://travis-ci.org/plainheart/echarts-extension-gmap.svg?branch=master)](https://travis-ci.org/plainheart/echarts-extension-gmap)
 [![NPM Downloads](https://img.shields.io/npm/dm/echarts-extension-gmap.svg)](https://npmcharts.com/compare/echarts-extension-gmap?minimal=true)
-[![jsDelivr Downloads](https://data.jsdelivr.com/v1/package/npm/echarts-extension-gmap/badge)](https://www.jsdelivr.com/package/npm/echarts-extension-gmap)
+[![jsDelivr Downloads](https://data.jsdelivr.com/v1/package/npm/echarts-extension-gmap/badge?style=rounded)](https://www.jsdelivr.com/package/npm/echarts-extension-gmap)
 [![License](https://img.shields.io/npm/l/echarts-extension-gmap.svg)](https://www.npmjs.com/package/echarts-extension-gmap)
 
 ## Google Map extension for Apache ECharts (incubating)
