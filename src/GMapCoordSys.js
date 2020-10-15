@@ -138,9 +138,8 @@ GMapCoordSys.create = function(ecModel, api) {
         root.removeChild(gmapRoot);
       }
       gmapRoot = document.createElement('div');
+      gmapRoot.className = 'ec-extension-google-map';
       gmapRoot.style.cssText = 'width:100%;height:100%';
-      // Not support IE8
-      gmapRoot.classList.add('ec-extension-google-map');
       root.appendChild(gmapRoot);
 
       var options = zrUtil.clone(gmapModel.get());
