@@ -26,7 +26,7 @@ npm install echarts-extension-gmap --save
 
 ### Import
 
-Import packaged distribution file `echarts-extension-gmap.min.js` and add Google Map API script and echarts script.
+Import packaged distribution file `echarts-extension-gmap.min.js` and add Google Map API script and ECharts script.
 
 ```html
 <!-- import JavaScript API of Google Map, please replace the key with your own key -->
