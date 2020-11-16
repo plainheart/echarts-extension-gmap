@@ -71,21 +71,30 @@ export default echarts.extendComponentView({
     this._oldRenderHandler = null;
 
     var component = ecModel.getComponent('gmap');
+    if (!component) {
+      return;
+    }
+
     var gmapInstance = component.getGoogleMap();
 
-    // remove injected projection
-    delete gmapInstance.__overlayProjection;
+    if (gmapInstance) {
+      // remove injected projection
+      delete gmapInstance.__overlayProjection;
 
-    // clear all listeners of map instance
-    google.maps.event.clearInstanceListeners(gmapInstance);
+      // clear all listeners of map instance
+      google.maps.event.clearInstanceListeners(gmapInstance);
 
-    // remove DOM of map instance
-    var mapDiv = gmapInstance.getDiv();
-    mapDiv.parentNode.removeChild(mapDiv);
+      // remove DOM of map instance
+      var mapDiv = gmapInstance.getDiv();
+      mapDiv.parentNode && mapDiv.parentNode.removeChild(mapDiv);
+    }
 
     component.setGoogleMap(null);
     component.setEChartsLayer(null);
-    component.coordinateSystem.setGoogleMap(null);
-    component.coordinateSystem = null;
+
+    if (component.coordinateSystem) {
+      component.coordinateSystem.setGoogleMap(null);
+      component.coordinateSystem = null;
+    }
   }
 });
