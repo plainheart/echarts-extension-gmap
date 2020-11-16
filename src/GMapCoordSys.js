@@ -47,6 +47,7 @@ GMapCoordSysProto.dataToPoint = function(data) {
     var mapOffset = this._mapOffset;
     return [px.x - mapOffset[0], px.y - mapOffset[1]];
   }
+  return [];
 };
 
 GMapCoordSysProto.pointToData = function(pt) {
