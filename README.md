@@ -37,7 +37,7 @@ Import packaged distribution file `echarts-extension-gmap.min.js` and add Google
 <script src="dist/echarts-extension-gmap.min.js"></script>
 ```
 
-You can also import this extension by `require` if you are using `webpack`.
+You can also import this extension by `require` or `import` if you are using `webpack`.
 
 ```js
 require('echarts');

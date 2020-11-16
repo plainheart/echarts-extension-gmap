@@ -37,7 +37,7 @@ npm install echarts-extension-gmap --save
 <script src="dist/echarts-extension-gmap.min.js"></script>
 ```
 
-如果是 `webpack` 打包，也可以 `require` 引入
+如果是 `webpack` 打包，也可以 `require` 或者 `import` 引入
 
 ```js
 require('echarts');
