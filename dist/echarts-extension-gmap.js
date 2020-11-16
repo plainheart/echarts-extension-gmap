@@ -1,6 +1,6 @@
 /*!
  * echarts-extension-gmap 
- * @version 1.2.1
+ * @version 1.3.0
  * @author plainheart
  * 
  * MIT License
@@ -33,7 +33,7 @@
 }(this, (function (exports, echarts) { 'use strict';
 
   var name = "echarts-extension-gmap";
-  var version = "1.2.1";
+  var version = "1.3.0";
 
   /* global google */
 
@@ -82,6 +82,7 @@
       var mapOffset = this._mapOffset;
       return [px.x - mapOffset[0], px.y - mapOffset[1]];
     }
+    return [];
   };
 
   GMapCoordSysProto.pointToData = function(pt) {
@@ -173,9 +174,8 @@
           root.removeChild(gmapRoot);
         }
         gmapRoot = document.createElement('div');
+        gmapRoot.className = 'ec-extension-google-map';
         gmapRoot.style.cssText = 'width:100%;height:100%';
-        // Not support IE8
-        gmapRoot.classList.add('ec-extension-google-map');
         root.appendChild(gmapRoot);
 
         var options = echarts.util.clone(gmapModel.get());
@@ -799,22 +799,31 @@
       this._oldRenderHandler = null;
 
       var component = ecModel.getComponent('gmap');
+      if (!component) {
+        return;
+      }
+
       var gmapInstance = component.getGoogleMap();
 
-      // remove injected projection
-      delete gmapInstance.__overlayProjection;
+      if (gmapInstance) {
+        // remove injected projection
+        delete gmapInstance.__overlayProjection;
 
-      // clear all listeners of map instance
-      google.maps.event.clearInstanceListeners(gmapInstance);
+        // clear all listeners of map instance
+        google.maps.event.clearInstanceListeners(gmapInstance);
 
-      // remove DOM of map instance
-      var mapDiv = gmapInstance.getDiv();
-      mapDiv.parentNode.removeChild(mapDiv);
+        // remove DOM of map instance
+        var mapDiv = gmapInstance.getDiv();
+        mapDiv.parentNode && mapDiv.parentNode.removeChild(mapDiv);
+      }
 
       component.setGoogleMap(null);
       component.setEChartsLayer(null);
-      component.coordinateSystem.setGoogleMap(null);
-      component.coordinateSystem = null;
+
+      if (component.coordinateSystem) {
+        component.coordinateSystem.setGoogleMap(null);
+        component.coordinateSystem = null;
+      }
     }
   });
 
