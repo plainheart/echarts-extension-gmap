@@ -10,7 +10,7 @@
 
 [在线示例](https://codepen.io/plainheart/pen/VweLGbR) (示例中使用了谷歌地图API，国内访问需要代理)
 
-[ECharts](https://echarts.apache.org/zh/index.html) 谷歌地图扩展，可以在高德地图上展现 [点图](https://echarts.apache.org/zh/option.html#series-scatter)，[线图](https://echarts.apache.org/zh/option.html#series-line)，[热力图](https://echarts.apache.org/zh/option.html#series-heatmap) 等可视化。
+[ECharts](https://echarts.apache.org/zh/index.html) 谷歌地图扩展，可以在高德地图上展现 [点图](https://echarts.apache.org/zh/option.html#series-scatter)，[线图](https://echarts.apache.org/zh/option.html#series-lines)，[热力图](https://echarts.apache.org/zh/option.html#series-heatmap) 等可视化。
 
 ### 示例
 
@@ -20,7 +20,7 @@
 
 ### 安装
 
-```js
+```shell
 npm install echarts-extension-gmap --save
 ```
 
@@ -37,11 +37,11 @@ npm install echarts-extension-gmap --save
 <script src="dist/echarts-extension-gmap.min.js"></script>
 ```
 
-如果是 webpack 打包，也可以 require 引入
+如果是 `webpack` 打包，也可以 `require` 引入
 
 ```js
-require("echarts");
-require("echarts-extension-gmap");
+require('echarts');
+require('echarts-extension-gmap');
 ```
 
 使用 CDN
@@ -81,9 +81,9 @@ option = {
   },
   series: [
     {
-      type: "scatter",
+      type: 'scatter',
       // 使用高德地图坐标系
-      coordinateSystem: "gmap",
+      coordinateSystem: 'gmap',
       // 数据格式跟在 geo 坐标系上一样，每一项都是 [经度，纬度，数值大小，其它维度...]
       data: [[120, 30, 8], [120.1, 30.2, 20]],
       encode: {
@@ -98,7 +98,7 @@ option = {
 // 获取谷歌地图实例
 var gmap = chart
   .getModel()
-  .getComponent("gmap")
+  .getComponent('gmap')
   .getGoogleMap();
 // 添加一个Marker
 var marker = new google.maps.Marker({ position: gmap.getCenter() });

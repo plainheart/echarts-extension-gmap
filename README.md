@@ -10,7 +10,7 @@
 
 [Online example on CodePen](https://codepen.io/plainheart/pen/VweLGbR)
 
-This is a Google Map extension for [ECharts](https://echarts.apache.org/en/index.html) which is used to display visualizations such as [Scatter](https://echarts.apache.org/en/option.html#series-scatter), [Line](https://echarts.apache.org/en/option.html#series-line), [Heatmap](https://echarts.apache.org/en/option.html#series-heatmap).
+This is a Google Map extension for [ECharts](https://echarts.apache.org/en/index.html) which is used to display visualizations such as [Scatter](https://echarts.apache.org/en/option.html#series-scatter), [Lines](https://echarts.apache.org/en/option.html#series-lines), [Heatmap](https://echarts.apache.org/en/option.html#series-heatmap).
 
 ### Examples
 
@@ -20,7 +20,7 @@ Refer to [examples/index.html](https://github.com/plainheart/echarts-extension-g
 
 ### Installation
 
-```js
+```shell
 npm install echarts-extension-gmap --save
 ```
 
@@ -40,8 +40,8 @@ Import packaged distribution file `echarts-extension-gmap.min.js` and add Google
 You can also import this extension by `require` if you are using `webpack`.
 
 ```js
-require("echarts");
-require("echarts-extension-gmap");
+require('echarts');
+require('echarts-extension-gmap');
 ```
 
 Or use a CDN
@@ -85,9 +85,9 @@ option = {
   },
   series: [
     {
-      type: "scatter",
+      type: 'scatter',
       // use `gmap` as the coordinate system
-      coordinateSystem: "gmap",
+      coordinateSystem: 'gmap',
       // data items [[lng, lat, value], [lng, lat, value], ...]
       data: [[120, 30, 8], [120.1, 30.2, 20]],
       encode: {
@@ -103,7 +103,7 @@ option = {
 // Get the instance of Google Map
 var gmap = chart
   .getModel()
-  .getComponent("gmap")
+  .getComponent('gmap')
   .getGoogleMap();
 // Add some markers to map
 var marker = new google.maps.Marker({ position: gmap.getCenter() });
