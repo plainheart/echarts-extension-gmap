@@ -4,7 +4,7 @@
 [![jsDelivr Downloads](https://data.jsdelivr.com/v1/package/npm/echarts-extension-gmap/badge?style=rounded)](https://www.jsdelivr.com/package/npm/echarts-extension-gmap)
 [![License](https://img.shields.io/npm/l/echarts-extension-gmap.svg)](https://www.npmjs.com/package/echarts-extension-gmap)
 
-## Apache ECharts (incubating) 谷歌地图扩展
+## Apache ECharts 谷歌地图扩展
 
 [README_EN](https://github.com/plainheart/echarts-extension-gmap/blob/master/README.md)
 
