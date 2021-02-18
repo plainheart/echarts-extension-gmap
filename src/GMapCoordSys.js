@@ -43,11 +43,8 @@ GMapCoordSysProto.getGoogleMap = function() {
 GMapCoordSysProto.dataToPoint = function(data) {
   var latlng = new google.maps.LatLng(data[1], data[0]);
   var px = latLngToPixel(latlng, this._gmap);
-  if (px) {
-    var mapOffset = this._mapOffset;
-    return [px.x - mapOffset[0], px.y - mapOffset[1]];
-  }
-  return [];
+  var mapOffset = this._mapOffset;
+  return [px.x - mapOffset[0], px.y - mapOffset[1]];
 };
 
 GMapCoordSysProto.pointToData = function(pt) {
@@ -140,7 +137,7 @@ GMapCoordSys.create = function(ecModel, api) {
       }
       gmapRoot = document.createElement('div');
       gmapRoot.className = 'ec-extension-google-map';
-      gmapRoot.style.cssText = 'width:100%;height:100%';
+      gmapRoot.style.cssText = 'position:absolute;top:0;left:0;right:0;bottom:0;';
       root.appendChild(gmapRoot);
 
       var options = zrUtil.clone(gmapModel.get());
@@ -255,7 +252,7 @@ function createOverlayCtor() {
 function latLngToPixel(latLng, map) {
   var projection = map.__overlayProjection;
   if (!projection) {
-    return;
+    return new google.maps.Point(-Infinity, -Infinity);
   }
 
   return projection.fromLatLngToContainerPixel(latLng);
@@ -264,7 +261,7 @@ function latLngToPixel(latLng, map) {
 function pixelToLatLng(pixel, map) {
   var projection = map.__overlayProjection;
   if (!projection) {
-    return;
+    return new google.maps.Point(-Infinity, -Infinity);
   }
 
   return projection.fromContainerPixelToLatLng(pixel);
