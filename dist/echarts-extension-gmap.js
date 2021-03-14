@@ -1,6 +1,6 @@
 /*!
  * echarts-extension-gmap 
- * @version 1.3.0
+ * @version 1.3.1
  * @author plainheart
  * 
  * MIT License
@@ -33,7 +33,7 @@
 }(this, (function (exports, echarts) { 'use strict';
 
   var name = "echarts-extension-gmap";
-  var version = "1.3.0";
+  var version = "1.3.1";
 
   /* global google */
 
@@ -78,11 +78,8 @@
   GMapCoordSysProto.dataToPoint = function(data) {
     var latlng = new google.maps.LatLng(data[1], data[0]);
     var px = latLngToPixel(latlng, this._gmap);
-    if (px) {
-      var mapOffset = this._mapOffset;
-      return [px.x - mapOffset[0], px.y - mapOffset[1]];
-    }
-    return [];
+    var mapOffset = this._mapOffset;
+    return [px.x - mapOffset[0], px.y - mapOffset[1]];
   };
 
   GMapCoordSysProto.pointToData = function(pt) {
@@ -175,7 +172,7 @@
         }
         gmapRoot = document.createElement('div');
         gmapRoot.className = 'ec-extension-google-map';
-        gmapRoot.style.cssText = 'width:100%;height:100%';
+        gmapRoot.style.cssText = 'position:absolute;top:0;left:0;right:0;bottom:0;';
         root.appendChild(gmapRoot);
 
         var options = echarts.util.clone(gmapModel.get());
@@ -290,7 +287,7 @@
   function latLngToPixel(latLng, map) {
     var projection = map.__overlayProjection;
     if (!projection) {
-      return;
+      return new google.maps.Point(-Infinity, -Infinity);
     }
 
     return projection.fromLatLngToContainerPixel(latLng);
@@ -299,7 +296,7 @@
   function pixelToLatLng(pixel, map) {
     var projection = map.__overlayProjection;
     if (!projection) {
-      return;
+      return new google.maps.Point(-Infinity, -Infinity);
     }
 
     return projection.fromContainerPixelToLatLng(pixel);
