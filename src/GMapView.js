@@ -1,7 +1,6 @@
 /* global google */
 
 import * as echarts from 'echarts';
-import debounce from 'lodash.debounce';
 
 export default echarts.extendComponentView({
   type: 'gmap',
@@ -61,8 +60,8 @@ export default echarts.extendComponentView({
     this._oldRenderHandler && this._oldRenderHandler.remove();
 
     if (!renderOnMoving) {
-      renderHandler = debounce(renderHandler, 100);
-      resizeHandler = debounce(resizeHandler, 100);
+      renderHandler = echarts.throttle(renderHandler, 100, true)
+      resizeHandler = echarts.throttle(resizeHandler, 100, true)
     }
 
     this._oldRenderHandler = google.maps.event.addListener(gmap, 'gmaprender', renderHandler);
