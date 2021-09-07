@@ -39,6 +39,8 @@ export default echarts.extendComponentModel({
     zoom: 5,
 
     // extension options
+    // since v1.4.0
+    roam: true,
     echartsLayerZIndex: 2000,
     renderOnMoving: true
   }

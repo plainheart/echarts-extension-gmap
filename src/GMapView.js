@@ -17,6 +17,10 @@ export default echarts.extendComponentView({
     var oldWidth = offsetEl.clientWidth;
     var oldHeight = offsetEl.clientHeight;
 
+    gmap.setOptions({
+      gestureHandling: gmapModel.get('roam') ? 'auto' : 'none'
+    });
+
     var renderHandler = function() {
       if (rendering) {
         return;
