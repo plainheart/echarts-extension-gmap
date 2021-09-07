@@ -76,8 +76,13 @@ option = {
     // 其他地图初始化参数...
     // https://developers.google.cn/maps/documentation/javascript/reference/map#MapOptions
 
-    // 移动过程中实时渲染 默认为true 如数据量较大 建议置为false
-    renderOnMoving: true
+    // 移动过程中实时渲染。默认为 true。如数据量较大，建议置为 false。
+    renderOnMoving: true,
+    // 谷歌地图 ECharts 图层的 zIndex。默认为 2000。
+    echartsLayerZIndex: 2019,
+    // 是否启用手势事件处理，如拖拽等。默认为 true。
+    // 此配置项从 v1.4.0 起支持
+    roam: true
   },
   series: [
     {

@@ -72,14 +72,19 @@ option = {
     // See https://developers.google.com/maps/documentation/javascript/reference/map#MapOptions for details
     // initial map center, accepts an array like [lng, lat] or an object like { lng, lat }
     center: [108.39, 39.9],
+    // center: { lng: 108.39, lat: 39.9 },
     // initial map zoom
     zoom: 4,
-    // whether echarts layer should be rendered when the map is moving. Default is true.
+
+    // whether echarts layer should be rendered when the map is moving. `true` by default.
     // if false, it will only be re-rendered after the map `moveend`.
     // It's better to set this option to false if data is large.
     renderOnMoving: true,
-    // the zIndex of echarts layer for Google Map, default value is 2000.
-    echartsLayerZIndex: 2019
+    // the zIndex of echarts layer for Google Map. `2000` by default.
+    echartsLayerZIndex: 2019,
+    // whether to enable gesture handling. `true` by default.
+    // since v1.4.0
+    roam: false
 
     // More initial options...
   },
