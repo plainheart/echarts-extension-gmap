@@ -16,7 +16,7 @@
 
 参见 [examples/index_zh_CN.html](https://github.com/plainheart/echarts-extension-gmap/blob/master/examples/index_zh_CN.html)
 
-![示例](https://user-images.githubusercontent.com/26999792/83968392-86cc1200-a8fb-11ea-8326-47d62627dfc9.png)
+![示例](https://user-images.githubusercontent.com/26999792/140644753-6487d3b7-7ffb-4ee5-a0dd-f760efbef5c8.png)
 
 ### 安装
 
