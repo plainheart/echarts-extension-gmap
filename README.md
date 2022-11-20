@@ -43,11 +43,17 @@ Import packaged distribution file `echarts-extension-gmap.min.js` and add Google
 <script src="dist/echarts-extension-gmap.min.js"></script>
 ```
 
-You can also import this extension by `require` or `import` if you are using `webpack`.
+You can also import this extension by `require` or `import` if you are using webpack or any other bundler.
+
 
 ```js
+// use require
 require('echarts');
 require('echarts-extension-gmap');
+
+// use import
+import * as echarts from 'echarts';
+import 'echarts-extension-gmap';
 ```
 
 Or use a CDN
