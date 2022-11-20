@@ -37,6 +37,19 @@ function v2Equal(a, b) {
 }
 
 /* global google */
+function dataToCoordSize(dataSize, dataItem) {
+  dataItem = dataItem || [0, 0];
+  return util.map([0, 1], function (dimIdx) {
+    var val = dataItem[dimIdx];
+    var halfSize = dataSize[dimIdx] / 2;
+    var p1 = [];
+    var p2 = [];
+    p1[dimIdx] = val - halfSize;
+    p2[dimIdx] = val + halfSize;
+    p1[1 - dimIdx] = p2[1 - dimIdx] = dataItem[1 - dimIdx];
+    return Math.abs(this.dataToPoint(p1)[dimIdx] - this.dataToPoint(p2)[dimIdx]);
+  }, this);
+}
 function GMapCoordSys(gmap, api) {
   this._gmap = gmap;
   this.dimensions = ['lng', 'lat'];
@@ -97,22 +110,14 @@ GMapCoordSysProto.prepareCustoms = function () {
     }
   };
 };
-function dataToCoordSize(dataSize, dataItem) {
-  dataItem = dataItem || [0, 0];
-  return util.map([0, 1], function (dimIdx) {
-    var val = dataItem[dimIdx];
-    var halfSize = dataSize[dimIdx] / 2;
-    var p1 = [];
-    var p2 = [];
-    p1[dimIdx] = val - halfSize;
-    p2[dimIdx] = val + halfSize;
-    p1[1 - dimIdx] = p2[1 - dimIdx] = dataItem[1 - dimIdx];
-    return Math.abs(this.dataToPoint(p1)[dimIdx] - this.dataToPoint(p2)[dimIdx]);
-  }, this);
-}
-
-// For deciding which dimensions to use when creating list data
-GMapCoordSys.dimensions = GMapCoordSysProto.dimensions;
+GMapCoordSysProto.convertToPixel = function (ecModel, finder, value) {
+  // here we don't use finder as only one google map component is allowed
+  return this.dataToPoint(value);
+};
+GMapCoordSysProto.convertFromPixel = function (ecModel, finder, value) {
+  // here we don't use finder as only one google map component is allowed
+  return this.pointToData(value);
+};
 GMapCoordSys.create = function (ecModel, api) {
   var gmapCoordSys;
   var root = api.getDom();
@@ -201,6 +206,9 @@ GMapCoordSys.create = function (ecModel, api) {
       seriesModel.coordinateSystem = gmapCoordSys;
     }
   });
+
+  // return created coordinate systems
+  return gmapCoordSys && [gmapCoordSys];
 };
 var Overlay;
 function createOverlayCtor() {

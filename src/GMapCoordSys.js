@@ -3,6 +3,26 @@
 import { util as zrUtil, graphic, matrix } from 'echarts/lib/echarts'
 import { COMPONENT_TYPE } from './helper'
 
+function dataToCoordSize(dataSize, dataItem) {
+  dataItem = dataItem || [0, 0]
+  return zrUtil.map(
+    [0, 1],
+    function(dimIdx) {
+      const val = dataItem[dimIdx]
+      const halfSize = dataSize[dimIdx] / 2
+      const p1 = []
+      const p2 = []
+      p1[dimIdx] = val - halfSize
+      p2[dimIdx] = val + halfSize
+      p1[1 - dimIdx] = p2[1 - dimIdx] = dataItem[1 - dimIdx]
+      return Math.abs(
+        this.dataToPoint(p1)[dimIdx] - this.dataToPoint(p2)[dimIdx]
+      )
+    },
+    this
+  )
+}
+
 function GMapCoordSys(gmap, api) {
   this._gmap = gmap
   this.dimensions = ['lng', 'lat']
@@ -81,28 +101,15 @@ GMapCoordSysProto.prepareCustoms = function() {
   }
 }
 
-function dataToCoordSize(dataSize, dataItem) {
-  dataItem = dataItem || [0, 0]
-  return zrUtil.map(
-    [0, 1],
-    function(dimIdx) {
-      const val = dataItem[dimIdx]
-      const halfSize = dataSize[dimIdx] / 2
-      const p1 = []
-      const p2 = []
-      p1[dimIdx] = val - halfSize
-      p2[dimIdx] = val + halfSize
-      p1[1 - dimIdx] = p2[1 - dimIdx] = dataItem[1 - dimIdx]
-      return Math.abs(
-        this.dataToPoint(p1)[dimIdx] - this.dataToPoint(p2)[dimIdx]
-      )
-    },
-    this
-  )
+GMapCoordSysProto.convertToPixel = function(ecModel, finder, value) {
+  // here we don't use finder as only one google map component is allowed
+  return this.dataToPoint(value);
 }
 
-// For deciding which dimensions to use when creating list data
-GMapCoordSys.dimensions = GMapCoordSysProto.dimensions
+GMapCoordSysProto.convertFromPixel = function(ecModel, finder, value) {
+  // here we don't use finder as only one google map component is allowed
+  return this.pointToData(value);
+}
 
 GMapCoordSys.create = function(ecModel, api) {
   let gmapCoordSys
@@ -203,6 +210,9 @@ GMapCoordSys.create = function(ecModel, api) {
       seriesModel.coordinateSystem = gmapCoordSys
     }
   })
+
+  // return created coordinate systems
+  return gmapCoordSys && [gmapCoordSys]
 }
 
 let Overlay
