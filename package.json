@@ -10,6 +10,7 @@
     "index.js",
     "examples/*.html"
   ],
+  "types": "types.d.ts",
   "scripts": {
     "dev": "rollup -wc --environment NODE_ENV:development",
     "build": "rollup -c --environment NODE_ENV:production",
