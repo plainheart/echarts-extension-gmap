@@ -1,37 +1,34 @@
-import * as echarts from 'echarts';
+import { ComponentModel } from 'echarts/lib/echarts'
+import { COMPONENT_TYPE, isNewEC, v2Equal } from './helper'
 
-function v2Equal(a, b) {
-  return a && b && a[0] === b[0] && a[1] === b[1];
-}
+const GMapModel = {
+  type: COMPONENT_TYPE,
 
-export default echarts.extendComponentModel({
-  type: 'gmap',
-
-  setGoogleMap: function(gmap) {
-    this.__gmap = gmap;
+  setGoogleMap(gmap) {
+    this.__gmap = gmap
   },
 
-  getGoogleMap: function() {
+  getGoogleMap() {
     // __gmap is set when creating GMapCoordSys
-    return this.__gmap;
+    return this.__gmap
   },
 
-  setEChartsLayer: function(layer) {
-    this.__echartsLayer = layer;
+  setEChartsLayer(layer) {
+    this.__echartsLayer = layer
   },
 
-  getEChartsLayer: function() {
-    return this.__echartsLayer;
+  getEChartsLayer() {
+    return this.__echartsLayer
   },
 
-  setCenterAndZoom: function(center, zoom) {
-    this.option.center = center;
-    this.option.zoom = zoom;
+  setCenterAndZoom(center, zoom) {
+    this.option.center = center
+    this.option.zoom = zoom
   },
 
-  centerOrZoomChanged: function(center, zoom) {
-    var option = this.option;
-    return !(v2Equal(center, option.center) && zoom === option.zoom);
+  centerOrZoomChanged(center, zoom) {
+    const option = this.option
+    return !(v2Equal(center, option.center) && zoom === option.zoom)
   },
 
   defaultOption: {
@@ -44,4 +41,8 @@ export default echarts.extendComponentModel({
     echartsLayerZIndex: 2000,
     renderOnMoving: true
   }
-});
+}
+
+export default isNewEC
+  ? ComponentModel.extend(GMapModel)
+  : GMapModel

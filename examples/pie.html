@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="cleartype" content="on">
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>pie - echarts-extension-gmap</title>
+  <!-- please replace {key} with your own API key -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={key}"></script>
+  <!-- echarts CDN -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <!-- echarts gmap extension -->
+  <!-- <script type="text/javascript" src="../dist/echarts-extension-gmap.min.js"></script> -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-extension-gmap@1.5.0/dist/echarts-extension-gmap.min.js"></script>
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    html, body, #echarts-google-map {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div id="echarts-google-map"></div>
+  <!-- data is only for example -->
+  <script type="text/javascript">
+    var data = {
+      '北京': [10, 20, 30, 40],
+      '攀枝花': [15, 20, 36, 42],
+      '开封': [17, 42, 15, 31],
+      '上海': [46, 50, 59, 80],
+      '广州': [90, 45, 36, 15]
+    };
+    var geoCoords = {
+      '北京': [116.46, 39.92],
+      '攀枝花': [101.718637, 26.582347],
+      '开封': [114.35, 34.79],
+      '上海': [121.48, 31.22],
+      '广州': [113.23, 23.16]
+    };
+    var pieDimensions = ['A', 'B', 'C', 'D'];
+    var pieSeries = [];
+    echarts.util.each(data, function (values, name) {
+      pieSeries.push({
+        type: 'pie',
+        name: name,
+        coordinateSystem: 'gmap',
+        center: geoCoords[name],
+        radius: 20,
+        data: echarts.util.map(values, function (value, idx) {
+          return {
+            name: pieDimensions[idx],
+            value: value
+          }
+        }),
+        label: {
+          show: false
+        },
+        emphasis: {
+          label: {
+            show: true
+          },
+          labelLine: {
+            show: true,
+            lineStyle: {
+              color: '#fff'
+            }
+          }
+        }
+      })
+    });
+
+    var option = {
+      // google map component
+      gmap: {
+        // initial options of Google Map
+        // See https://developers.google.com/maps/documentation/javascript/reference/map#MapOptions for details
+        // initial map center, accepts an array like [lng, lat] or an object like { lng, lat }
+        center: [102.278269, 35.391011],
+        // center: { lng: 102.278269, lat: 35.391011 },
+        // initial map zoom
+        zoom: 4,
+
+        // whether echarts layer should be rendered when the map is moving. `true` by default.
+        // if false, it will only be re-rendered after the map `moveend`.
+        // It's better to set this option to false if data is large.
+        renderOnMoving: true,
+        // the zIndex of echarts layer for Google Map. `2000` by default.
+        echartsLayerZIndex: 2019,
+        // whether to enable gesture handling. `true` by default.
+        // since v1.4.0
+        roam: true
+
+        // More initial options...
+      },
+      tooltip : {
+        trigger: 'item'
+      },
+      animation: true,
+      series: pieSeries
+    };
+    // initialize echarts
+    var chart = echarts.init(document.getElementById('echarts-google-map'));
+    chart.setOption(option);
+    // get google map instance
+    var gmap = chart.getModel().getComponent("gmap").getGoogleMap();
+    // Add some markers to map
+    var marker = new google.maps.Marker({ position: gmap.getCenter() });
+    marker.setMap(gmap);
+    // Add TrafficLayer to map
+    // var trafficLayer = new google.maps.TrafficLayer();
+    // trafficLayer.setMap(gmap);
+  </script>
+</body>
+</html>

@@ -14,9 +14,15 @@
 
 ### 示例
 
-参见 [examples/index_zh_CN.html](https://github.com/plainheart/echarts-extension-gmap/blob/master/examples/index_zh_CN.html)
+[Scatter 散点图](https://github.com/plainheart/echarts-extension-gmap/tree/master/examples/scatter_zh_CN.html)
 
-![示例](https://user-images.githubusercontent.com/26999792/140644753-6487d3b7-7ffb-4ee5-a0dd-f760efbef5c8.png)
+[Lines 线图](https://github.com/plainheart/echarts-extension-gmap/tree/master/examples/lines_zh_CN.html)
+
+[Heatmap 热力图](https://github.com/plainheart/echarts-extension-gmap/tree/master/examples/heatmap_zh_CN.html)
+
+[Pie 饼图](https://github.com/plainheart/echarts-extension-gmap/tree/master/examples/pie_zh_CN.html)
+
+![示例](https://user-images.githubusercontent.com/26999792/202892350-5a7df14e-18ea-4f98-9a62-f55d29ad9a49.png)
 
 ### 安装
 
@@ -109,6 +115,6 @@ var gmap = chart
 var marker = new google.maps.Marker({ position: gmap.getCenter() });
 marker.setMap(gmap);
 // 添加交通图层
-var trafficLayer = new google.maps.TrafficLayer();
-trafficLayer.setMap(gmap);
+// var trafficLayer = new google.maps.TrafficLayer();
+// trafficLayer.setMap(gmap);
 ```

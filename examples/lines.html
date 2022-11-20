@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="cleartype" content="on">
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>an example for echarts-extension-gmap</title>
+  <!-- please replace {key} with your own API key -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={key}"></script>
+  <!-- echarts CDN -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <!-- echarts gmap extension -->
+  <!-- <script type="text/javascript" src="../dist/echarts-extension-gmap.min.js"></script> -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-extension-gmap@1.5.0/dist/echarts-extension-gmap.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    html, body, #echarts-google-map {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div id="echarts-google-map"></div>
+  <!-- data is only for example -->
+  <script type="text/javascript">
+    var linesDataURI = 'https://cdn.jsdelivr.net/gh/apache/echarts-examples/public/data/asset/data/lines-bus.json';
+
+    // initialize echarts
+    var chart = echarts.init(document.getElementById('echarts-google-map'));
+    // fetch the lines data
+    $.get(linesDataURI, function (data) {
+      // convert
+      var hStep = 300 / (data.length - 1);
+      var busLines = [].concat.apply([], data.map(function (busLine, idx) {
+        var prevPt;
+        var points = [];
+        for (var i = 0; i < busLine.length; i += 2) {
+          var pt = [busLine[i], busLine[i + 1]];
+          if (i > 0) {
+            pt = [
+              prevPt[0] + pt[0],
+              prevPt[1] + pt[1]
+            ];
+          }
+          prevPt = pt;
+
+          points.push([pt[0] / 1e4, pt[1] / 1e4]);
+        }
+        return {
+          coords: points,
+          lineStyle: {
+            color: echarts.color.modifyHSL('#5A94DF', Math.round(hStep * idx))
+          }
+        };
+      }));
+      chart.setOption({
+        // google map component
+        gmap: {
+          // initial options of Google Map
+          // See https://developers.google.com/maps/documentation/javascript/reference/map#MapOptions for details
+          // initial map center, accepts an array like [lng, lat] or an object like { lng, lat }
+          center: [116.46, 39.92],
+          // center: { lng: 116.46, lat: 39.92 },
+          // initial map zoom
+          zoom: 10,
+
+          // whether echarts layer should be rendered when the map is moving. `true` by default.
+          // if false, it will only be re-rendered after the map `moveend`.
+          // It's better to set this option to false if data is large.
+          renderOnMoving: false,
+          // the zIndex of echarts layer for Google Map. `2000` by default.
+          echartsLayerZIndex: 2019,
+          // whether to enable gesture handling. `true` by default.
+          // since v1.4.0
+          roam: true
+
+          // More initial options...
+        },
+        series: [{
+          type: 'lines',
+          coordinateSystem: 'gmap',
+          polyline: true,
+          data: busLines,
+          silent: true,
+          lineStyle: {
+            opacity: 0.2,
+            width: 1
+          },
+          progressiveThreshold: 500,
+          progressive: 200
+        }, {
+          type: 'lines',
+          coordinateSystem: 'gmap',
+          polyline: true,
+          data: busLines,
+          lineStyle: {
+            width: 0
+          },
+          effect: {
+            constantSpeed: 20,
+            show: true,
+            trailLength: 0.1,
+            symbolSize: 1.5
+          },
+          zlevel: 1
+        }]
+      });
+      // get google map instance
+      var gmap = chart.getModel().getComponent("gmap").getGoogleMap();
+      // Add some markers to map
+      var marker = new google.maps.Marker({ position: gmap.getCenter() });
+      marker.setMap(gmap);
+      // Add TrafficLayer to map
+      // var trafficLayer = new google.maps.TrafficLayer();
+      // trafficLayer.setMap(gmap);
+    });
+  </script>
+</body>
+</html>

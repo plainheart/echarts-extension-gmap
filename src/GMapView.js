@@ -1,103 +1,109 @@
 /* global google */
 
-import * as echarts from 'echarts';
+import { ComponentView, getInstanceByDom, throttle } from 'echarts/lib/echarts'
+import { isNewEC, COMPONENT_TYPE } from './helper'
 
-export default echarts.extendComponentView({
-  type: 'gmap',
+const GMapView = {
+  type: COMPONENT_TYPE,
 
-  render: function(gmapModel, ecModel, api) {
-    var rendering = true;
+  render(gmapModel, ecModel, api) {
+    let rendering = true
 
-    var gmap = gmapModel.getGoogleMap();
-    var viewportRoot = api.getZr().painter.getViewportRoot();
-    var coordSys = gmapModel.coordinateSystem;
-    var offsetEl = gmap.getDiv();
-    var renderOnMoving = gmapModel.get('renderOnMoving');
-    var oldWidth = offsetEl.clientWidth;
-    var oldHeight = offsetEl.clientHeight;
+    const gmap = gmapModel.getGoogleMap()
+    const viewportRoot = api.getZr().painter.getViewportRoot()
+    const coordSys = gmapModel.coordinateSystem
+    const offsetEl = gmap.getDiv()
+    const renderOnMoving = gmapModel.get('renderOnMoving')
+    const oldWidth = offsetEl.clientWidth
+    const oldHeight = offsetEl.clientHeight
 
     gmap.setOptions({
       gestureHandling: gmapModel.get('roam') ? 'auto' : 'none'
-    });
+    })
 
-    var renderHandler = function() {
+    let renderHandler = function() {
       if (rendering) {
-        return;
+        return
       }
 
       // need resize?
-      var width = offsetEl.clientWidth;
-      var height = offsetEl.clientHeight;
+      const width = offsetEl.clientWidth
+      const height = offsetEl.clientHeight
       if (width !== oldWidth || height !== oldHeight) {
-        return resizeHandler.call(this);
+        return resizeHandler.call(this)
       }
 
-      var mapOffset = [
+      const mapOffset = [
         -parseInt(offsetEl.style.left, 10) || 0,
         -parseInt(offsetEl.style.top, 10) || 0
-      ];
-      viewportRoot.style.left = mapOffset[0] + 'px';
-      viewportRoot.style.top = mapOffset[1] + 'px';
+      ]
+      viewportRoot.style.left = mapOffset[0] + 'px'
+      viewportRoot.style.top = mapOffset[1] + 'px'
 
-      coordSys.setMapOffset(mapOffset);
-      gmapModel.__mapOffset = mapOffset;
+      coordSys.setMapOffset(mapOffset)
+      gmapModel.__mapOffset = mapOffset
 
       api.dispatchAction({
-        type: 'gmapRoam',
+        type: COMPONENT_TYPE + 'Roam',
         animation: {
           // in ECharts 5.x,
           // we can set animation duration as 0
           // to ensure no delay when moving or zooming
           duration: 0
         }
-      });
-    };
+      })
+    }
 
-    var resizeHandler = function() {
-      echarts.getInstanceByDom(api.getDom()).resize();
-    };
+    let resizeHandler = function() {
+      getInstanceByDom(api.getDom()).resize()
+    }
 
-    this._oldRenderHandler && this._oldRenderHandler.remove();
+    this._oldRenderHandler && this._oldRenderHandler.remove()
 
     if (!renderOnMoving) {
-      renderHandler = echarts.throttle(renderHandler, 100, true)
-      resizeHandler = echarts.throttle(resizeHandler, 100, true)
+      // TODO hide layer when moving
+      renderHandler = throttle(renderHandler, 100, true)
+      resizeHandler = throttle(resizeHandler, 100, true)
     }
 
-    this._oldRenderHandler = google.maps.event.addListener(gmap, 'gmaprender', renderHandler);
+    this._oldRenderHandler = google.maps.event.addListener(gmap, 'gmaprender', renderHandler)
 
-    rendering = false;
+    rendering = false
   },
 
-  dispose: function(ecModel, api) {
-    this._oldRenderHandler && this._oldRenderHandler.remove();
-    this._oldRenderHandler = null;
+  dispose() {
+    this._oldRenderHandler && this._oldRenderHandler.remove()
+    this._oldRenderHandler = null
 
-    var component = ecModel.getComponent('gmap');
+    const component = this.__model
     if (!component) {
-      return;
+      return
     }
 
-    var gmapInstance = component.getGoogleMap();
+    const gmapInstance = component.getGoogleMap()
 
     if (gmapInstance) {
       // remove injected projection
-      delete gmapInstance.__overlayProjection;
+      delete gmapInstance.__overlayProjection
 
       // clear all listeners of map instance
-      google.maps.event.clearInstanceListeners(gmapInstance);
+      google.maps.event.clearInstanceListeners(gmapInstance)
 
       // remove DOM of map instance
-      var mapDiv = gmapInstance.getDiv();
-      mapDiv.parentNode && mapDiv.parentNode.removeChild(mapDiv);
+      const mapDiv = gmapInstance.getDiv()
+      mapDiv.parentNode && mapDiv.parentNode.removeChild(mapDiv)
     }
 
-    component.setGoogleMap(null);
-    component.setEChartsLayer(null);
+    component.setGoogleMap(null)
+    component.setEChartsLayer(null)
 
     if (component.coordinateSystem) {
-      component.coordinateSystem.setGoogleMap(null);
-      component.coordinateSystem = null;
+      component.coordinateSystem.setGoogleMap(null)
+      component.coordinateSystem = null
     }
   }
-});
+}
+
+export default isNewEC
+  ? ComponentView.extend(GMapView)
+  : GMapView

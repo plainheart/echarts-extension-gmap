@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="cleartype" content="on">
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>echarts-extension-gmap lines 线图示例</title>
+  <!--  引入谷歌地图的Javascript API 这里需要使用你在谷歌地图开发者平台申请的 key -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={key}"></script>
+  <!-- 引入ECharts -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <!-- 引入ECharts谷歌地图扩展 -->
+  <!-- <script type="text/javascript" src="../dist/echarts-extension-gmap.min.js"></script> -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-extension-gmap@1.5.0/dist/echarts-extension-gmap.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    html, body, #echarts-google-map {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div id="echarts-google-map"></div>
+  <!-- 数据仅作示例 -->
+  <script type="text/javascript">
+    var linesDataURI = 'https://cdn.jsdelivr.net/gh/apache/echarts-examples/public/data/asset/data/lines-bus.json';
+
+    // 初始化 ECharts
+    var chart = echarts.init(document.getElementById('echarts-google-map'));
+    $.get(linesDataURI, function (data) {
+      // convert
+      var hStep = 300 / (data.length - 1);
+      var busLines = [].concat.apply([], data.map(function (busLine, idx) {
+        var prevPt;
+        var points = [];
+        for (var i = 0; i < busLine.length; i += 2) {
+          var pt = [busLine[i], busLine[i + 1]];
+          if (i > 0) {
+            pt = [
+              prevPt[0] + pt[0],
+              prevPt[1] + pt[1]
+            ];
+          }
+          prevPt = pt;
+
+          points.push([pt[0] / 1e4, pt[1] / 1e4]);
+        }
+        return {
+          coords: points,
+          lineStyle: {
+            color: echarts.color.modifyHSL('#5A94DF', Math.round(hStep * idx))
+          }
+        };
+      }));
+      chart.setOption({
+        // 加载 google map 组件
+        gmap: {
+          // 地图中心 支持数组或JSON对象
+          center: [116.46, 39.92],
+          // center: { lng: 116.46, lat: 39.92 },
+          // 缩放级别
+          zoom: 10,
+          // 其他地图初始化参数...
+          // https://developers.google.cn/maps/documentation/javascript/reference/map#MapOptions
+
+          // 移动过程中实时渲染。默认为 true。如数据量较大，建议置为 false。
+          renderOnMoving: false,
+          // 谷歌地图 ECharts 图层的 zIndex。默认为 2000。
+          echartsLayerZIndex: 2019,
+          // 是否启用手势事件处理，如拖拽等。默认为 true。
+          // 此配置项从 v1.4.0 起支持
+          roam: true
+        },
+        series: [{
+          type: 'lines',
+          coordinateSystem: 'gmap',
+          polyline: true,
+          data: busLines,
+          silent: true,
+          lineStyle: {
+            opacity: 0.2,
+            width: 1
+          },
+          progressiveThreshold: 500,
+          progressive: 200
+        }, {
+          type: 'lines',
+          coordinateSystem: 'gmap',
+          polyline: true,
+          data: busLines,
+          lineStyle: {
+            width: 0
+          },
+          effect: {
+            constantSpeed: 20,
+            show: true,
+            trailLength: 0.1,
+            symbolSize: 1.5
+          },
+          zlevel: 1
+        }]
+      });
+      // 获取谷歌地图实例
+      var gmap = chart.getModel().getComponent("gmap").getGoogleMap();
+      // 添加一个Marker
+      var marker = new google.maps.Marker({ position: gmap.getCenter() });
+      marker.setMap(gmap);
+      // 添加交通图层
+      // var trafficLayer = new google.maps.TrafficLayer();
+      // trafficLayer.setMap(gmap);
+    });
+  </script>
+</body>
+</html>

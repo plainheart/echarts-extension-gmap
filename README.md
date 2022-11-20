@@ -10,13 +10,19 @@
 
 [Online example on CodePen](https://codepen.io/plainheart/pen/VweLGbR)
 
-This is a Google Map extension for [ECharts](https://echarts.apache.org/en/index.html) which is used to display visualizations such as [Scatter](https://echarts.apache.org/en/option.html#series-scatter), [Lines](https://echarts.apache.org/en/option.html#series-lines), [Heatmap](https://echarts.apache.org/en/option.html#series-heatmap).
+This is a Google Map extension for [ECharts](https://echarts.apache.org/en/index.html) which is used to display visualizations such as [Scatter](https://echarts.apache.org/en/option.html#series-scatter), [Lines](https://echarts.apache.org/en/option.html#series-lines), [Heatmap](https://echarts.apache.org/en/option.html#series-heatmap), and [Pie](https://echarts.apache.org/en/option.html#series-pie).
 
 ### Examples
 
-Refer to [examples/index.html](https://github.com/plainheart/echarts-extension-gmap/blob/master/examples/index.html)
+[Scatter](https://github.com/plainheart/echarts-extension-gmap/tree/master/examples/scatter.html)
 
-![Preview](https://user-images.githubusercontent.com/26999792/140644753-6487d3b7-7ffb-4ee5-a0dd-f760efbef5c8.png)
+[Lines](https://github.com/plainheart/echarts-extension-gmap/tree/master/examples/lines.html)
+
+[Heatmap](https://github.com/plainheart/echarts-extension-gmap/tree/master/examples/heatmap.html)
+
+[Pie](https://github.com/plainheart/echarts-extension-gmap/tree/master/examples/pie.html)
+
+![Preview](https://user-images.githubusercontent.com/26999792/202892350-5a7df14e-18ea-4f98-9a62-f55d29ad9a49.png)
 
 ### Installation
 
@@ -84,7 +90,7 @@ option = {
     echartsLayerZIndex: 2019,
     // whether to enable gesture handling. `true` by default.
     // since v1.4.0
-    roam: false
+    roam: true
 
     // More initial options...
   },
@@ -114,6 +120,6 @@ var gmap = chart
 var marker = new google.maps.Marker({ position: gmap.getCenter() });
 marker.setMap(gmap);
 // Add TrafficLayer to map
-var trafficLayer = new google.maps.TrafficLayer();
-trafficLayer.setMap(gmap);
+// var trafficLayer = new google.maps.TrafficLayer();
+// trafficLayer.setMap(gmap);
 ```
