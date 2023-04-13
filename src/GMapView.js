@@ -50,6 +50,8 @@ const GMapView = {
     }
 
     let resizeHandler = function() {
+      // fix chart can't get resized correctly after the google map enters fullscreen
+      // See also #14
       getInstanceByDom(api.getDom()).resize({
         width: mapEl.clientWidth,
         height: mapEl.clientHeight
