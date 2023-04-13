@@ -55,7 +55,9 @@ const GMapView = {
     }
 
     let resizeHandler = function() {
-      getInstanceByDom(api.getDom()).resize()
+      const width = offsetEl.firstChild.clientWidth
+      const height = offsetEl.firstChild.clientHeight
+      getInstanceByDom(api.getDom()).resize({ width, height })
     }
 
     this._oldRenderHandler && this._oldRenderHandler.remove()

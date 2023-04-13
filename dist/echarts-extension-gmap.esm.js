@@ -338,7 +338,12 @@ var GMapView = {
       });
     };
     var resizeHandler = function resizeHandler() {
-      getInstanceByDom(api.getDom()).resize();
+      var width = offsetEl.firstChild.clientWidth;
+      var height = offsetEl.firstChild.clientHeight;
+      getInstanceByDom(api.getDom()).resize({
+        width: width,
+        height: height
+      });
     };
     this._oldRenderHandler && this._oldRenderHandler.remove();
     if (!renderOnMoving) {
