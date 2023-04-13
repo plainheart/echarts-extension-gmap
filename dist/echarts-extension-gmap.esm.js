@@ -1,6 +1,6 @@
 /*!
  * echarts-extension-gmap 
- * @version 1.5.0
+ * @version 1.6.0
  * @author plainheart
  * 
  * MIT License
@@ -304,23 +304,19 @@ var GMapView = {
     var gmap = gmapModel.getGoogleMap();
     var viewportRoot = api.getZr().painter.getViewportRoot();
     var coordSys = gmapModel.coordinateSystem;
-    var offsetEl = gmap.getDiv();
     var renderOnMoving = gmapModel.get('renderOnMoving');
-    var oldWidth = offsetEl.clientWidth;
-    var oldHeight = offsetEl.clientHeight;
-    gmap.setOptions({
-      gestureHandling: gmapModel.get('roam') ? 'auto' : 'none'
-    });
+    var offsetEl = gmap.getDiv();
+    var mapEl = offsetEl.firstChild;
+    var oldWidth = mapEl.clientWidth;
+    var oldHeight = mapEl.clientHeight;
     var renderHandler = function renderHandler() {
       if (rendering) {
         return;
       }
 
-      // need resize?
-      var width = offsetEl.clientWidth;
-      var height = offsetEl.clientHeight;
-      if (width !== oldWidth || height !== oldHeight) {
-        return resizeHandler.call(this);
+      // reduce unnecessary resize
+      if (mapEl.clientWidth !== oldWidth || mapEl.clientHeight !== oldHeight) {
+        return resizeHandler();
       }
       var mapOffset = [-parseInt(offsetEl.style.left, 10) || 0, -parseInt(offsetEl.style.top, 10) || 0];
       viewportRoot.style.left = mapOffset[0] + 'px';
@@ -338,25 +334,28 @@ var GMapView = {
       });
     };
     var resizeHandler = function resizeHandler() {
-      var width = offsetEl.firstChild.clientWidth;
-      var height = offsetEl.firstChild.clientHeight;
+      // fix chart can't get resized correctly after the google map enters fullscreen
+      // See also #14
       getInstanceByDom(api.getDom()).resize({
-        width: width,
-        height: height
+        width: mapEl.clientWidth,
+        height: mapEl.clientHeight
       });
     };
-    this._oldRenderHandler && this._oldRenderHandler.remove();
+    this._renderHandler && this._renderHandler.remove();
     if (!renderOnMoving) {
-      // TODO hide layer when moving
+      // PENDING hide layer when rendering
       renderHandler = throttle(renderHandler, 100, true);
       resizeHandler = throttle(resizeHandler, 100, true);
     }
-    this._oldRenderHandler = google.maps.event.addListener(gmap, 'gmaprender', renderHandler);
+    this._renderHandler = google.maps.event.addListener(gmap, renderOnMoving ? 'gmaprender' : 'idle', renderHandler);
+    gmap.setOptions({
+      gestureHandling: gmapModel.get('roam') ? 'auto' : 'none'
+    });
     rendering = false;
   },
   dispose: function dispose() {
-    this._oldRenderHandler && this._oldRenderHandler.remove();
-    this._oldRenderHandler = null;
+    this._renderHandler && this._renderHandler.remove();
+    delete this._renderHandler;
     var component = this.__model;
     if (!component) {
       return;
@@ -384,7 +383,7 @@ var GMapView = {
 var GMapView$1 = isNewEC ? ComponentView.extend(GMapView) : GMapView;
 
 var name = "echarts-extension-gmap";
-var version = "1.5.0";
+var version = "1.6.0";
 
 /**
  * Google Map component extension

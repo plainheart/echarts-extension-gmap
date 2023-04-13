@@ -1,6 +1,6 @@
 {
   "name": "echarts-extension-gmap",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "A Google Map(https://www.google.com/maps) extension for Apache ECharts (https://github.com/apache/echarts)",
   "main": "dist/echarts-extension-gmap.min.js",
   "module": "dist/echarts-extension-gmap.esm.js",
@@ -16,8 +16,8 @@
   ],
   "types": "types.d.ts",
   "scripts": {
-    "dev": "rollup -wc --environment NODE_ENV:development",
-    "build": "rollup -c --environment NODE_ENV:production",
+    "dev": "rollup -wc --environment NODE_ENV:development --bundleConfigAsCjs",
+    "build": "rollup -c --environment NODE_ENV:production --bundleConfigAsCjs",
     "postbuild": "node build/post-build.js",
     "release": "npm run build && npm run generate:example",
     "generate:example": "node build/generateExamples.js"
@@ -46,15 +46,15 @@
   },
   "homepage": "https://github.com/plainheart/echarts-extension-gmap#readme",
   "devDependencies": {
-    "@babel/core": "^7.19.3",
-    "@babel/preset-env": "^7.19.3",
-    "@rollup/plugin-babel": "^5.3.1",
-    "@rollup/plugin-commonjs": "^22.0.2",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^14.1.0",
-    "echarts": "^5.4.0",
+    "@babel/core": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-terser": "^0.4.1",
     "chalk": "^4.1.2",
-    "rollup": "^2.79.1",
-    "rollup-plugin-terser": "^7.0.2"
+    "echarts": "^5.4.2",
+    "rollup": "^3.20.2"
   }
 }

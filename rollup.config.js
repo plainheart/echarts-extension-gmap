@@ -1,6 +1,7 @@
 import path from 'node:path'
 import json from '@rollup/plugin-json'
 import commonjs from '@rollup/plugin-commonjs'
+import terser from '@rollup/plugin-terser'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { name, version } from './package.json'
 
@@ -58,7 +59,7 @@ function createConfig(format, output, specificPlugins = []) {
     output.sourcemap = isProd /* && isProdBuild */
   }
 
-  output.interop = false
+  output.interop = 'esModule'
 
   const external = ['echarts/lib/echarts']
   output.globals = {
@@ -114,7 +115,6 @@ function createProductionConfig(format) {
 }
 
 function createMinifiedConfig(format) {
-  const { terser } = require('rollup-plugin-terser')
   return createConfig(
     format,
     {
