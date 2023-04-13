@@ -12,25 +12,20 @@ const GMapView = {
     const gmap = gmapModel.getGoogleMap()
     const viewportRoot = api.getZr().painter.getViewportRoot()
     const coordSys = gmapModel.coordinateSystem
-    const offsetEl = gmap.getDiv()
     const renderOnMoving = gmapModel.get('renderOnMoving')
-    const oldWidth = offsetEl.clientWidth
-    const oldHeight = offsetEl.clientHeight
-
-    gmap.setOptions({
-      gestureHandling: gmapModel.get('roam') ? 'auto' : 'none'
-    })
+    const offsetEl = gmap.getDiv()
+    const mapEl = offsetEl.firstChild
+    const oldWidth = mapEl.clientWidth
+    const oldHeight = mapEl.clientHeight
 
     let renderHandler = function() {
       if (rendering) {
         return
       }
 
-      // need resize?
-      const width = offsetEl.clientWidth
-      const height = offsetEl.clientHeight
-      if (width !== oldWidth || height !== oldHeight) {
-        return resizeHandler.call(this)
+      // reduce unnecessary resize
+      if (mapEl.clientWidth !== oldWidth || mapEl.clientHeight !== oldHeight) {
+        return resizeHandler()
       }
 
       const mapOffset = [
@@ -55,25 +50,35 @@ const GMapView = {
     }
 
     let resizeHandler = function() {
-      getInstanceByDom(api.getDom()).resize()
+      getInstanceByDom(api.getDom()).resize({
+        width: mapEl.clientWidth,
+        height: mapEl.clientHeight
+      })
     }
 
-    this._oldRenderHandler && this._oldRenderHandler.remove()
+    this._renderHandler && this._renderHandler.remove()
 
     if (!renderOnMoving) {
-      // TODO hide layer when moving
+      // PENDING hide layer when rendering
       renderHandler = throttle(renderHandler, 100, true)
       resizeHandler = throttle(resizeHandler, 100, true)
     }
+    this._renderHandler = google.maps.event.addListener(
+      gmap,
+      renderOnMoving ? 'gmaprender' : 'idle',
+      renderHandler
+    )
 
-    this._oldRenderHandler = google.maps.event.addListener(gmap, 'gmaprender', renderHandler)
+    gmap.setOptions({
+      gestureHandling: gmapModel.get('roam') ? 'auto' : 'none'
+    })
 
     rendering = false
   },
 
   dispose() {
-    this._oldRenderHandler && this._oldRenderHandler.remove()
-    this._oldRenderHandler = null
+    this._renderHandler && this._renderHandler.remove()
+    delete this._renderHandler
 
     const component = this.__model
     if (!component) {
