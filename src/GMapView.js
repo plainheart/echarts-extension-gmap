@@ -72,7 +72,7 @@ const GMapView = {
     )
 
     gmap.setOptions({
-      gestureHandling: gmapModel.get('roam') ? (gmapModel.get('gestureHandling') ?? 'auto') : 'none'
+      gestureHandling: gmapModel.get('roam') ? (gmapModel.get('gestureHandling') || 'auto') : 'none'
     })
 
     rendering = false

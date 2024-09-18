@@ -1,6 +1,6 @@
 {
   "name": "echarts-extension-gmap",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "A Google Map(https://www.google.com/maps) extension for Apache ECharts (https://github.com/apache/echarts)",
   "main": "dist/echarts-extension-gmap.min.js",
   "module": "dist/echarts-extension-gmap.esm.js",

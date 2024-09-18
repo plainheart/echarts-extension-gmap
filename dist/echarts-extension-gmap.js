@@ -1,11 +1,11 @@
 /*!
  * echarts-extension-gmap 
- * @version 1.6.0
+ * @version 1.7.0
  * @author plainheart
  * 
  * MIT License
  * 
- * Copyright (c) 2020-2022 Zhongxiang Wang
+ * Copyright (c) 2020-2024 Zhongxiang Wang
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,6 +40,7 @@
   }
 
   /* global google */
+
   function dataToCoordSize(dataSize, dataItem) {
     dataItem = dataItem || [0, 0];
     return echarts.util.map([0, 1], function (dimIdx) {
@@ -300,6 +301,7 @@
   var GMapModel$1 = isNewEC ? echarts.ComponentModel.extend(GMapModel) : GMapModel;
 
   /* global google */
+
   var GMapView = {
     type: COMPONENT_TYPE,
     render: function render(gmapModel, ecModel, api) {
@@ -352,7 +354,7 @@
       }
       this._renderHandler = google.maps.event.addListener(gmap, renderOnMoving ? 'gmaprender' : 'idle', renderHandler);
       gmap.setOptions({
-        gestureHandling: gmapModel.get('roam') ? 'auto' : 'none'
+        gestureHandling: gmapModel.get('roam') ? gmapModel.get('gestureHandling') || 'auto' : 'none'
       });
       rendering = false;
     },
@@ -386,11 +388,12 @@
   var GMapView$1 = isNewEC ? echarts.ComponentView.extend(GMapView) : GMapView;
 
   var name = "echarts-extension-gmap";
-  var version = "1.6.0";
+  var version = "1.7.0";
 
   /**
    * Google Map component extension
    */
+
 
   /**
    * @typedef {import('../export').EChartsExtensionRegisters} EChartsExtensionRegisters

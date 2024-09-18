@@ -1,5 +1,5 @@
 declare const name = 'echarts-extension-gmap'
-declare const version = '1.6.0'
+declare const version = '1.7.0'
 
 interface InnerGoogleMapComponentOption {
   /**

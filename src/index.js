@@ -2,10 +2,10 @@
  * Google Map component extension
  */
 
- import GMapCoordSys from './GMapCoordSys'
- import GMapModel from './GMapModel'
- import GMapView from './GMapView'
- import { isNewEC, ecVer, COMPONENT_TYPE } from './helper'
+import GMapCoordSys from './GMapCoordSys'
+import GMapModel from './GMapModel'
+import GMapView from './GMapView'
+import { isNewEC, ecVer, COMPONENT_TYPE } from './helper'
 
 export { version, name } from '../package.json';
 
